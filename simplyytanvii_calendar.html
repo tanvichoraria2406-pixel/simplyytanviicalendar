@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>@simplyytanvii_ · Content Calendar</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FAF8F4;
+  --warm-white: #FFFFFF;
+  --ink: #1A1714;
+  --ink-soft: #5C554E;
+  --ink-faint: #B0A89E;
+  --border: #EAE4DC;
+  --green: #2D6A3F;
+  --green-soft: #EAF2EC;
+  --amber: #B45309;
+  --amber-soft: #FEF3C7;
+  --blue: #1D4ED8;
+  --blue-soft: #EFF6FF;
+  --rose: #9F1239;
+  --rose-soft: #FFF1F2;
+  --purple: #5B21B6;
+  --purple-soft: #F5F3FF;
+  --gray-soft: #F4F2EF;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--ink);
+  padding: 28px 20px 22px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-handle {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--cream);
+  letter-spacing: -0.3px;
+}
+.header-sub {
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-top: 3px;
+  letter-spacing: 0.04em;
+}
+.header-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+.hstat {
+  background: rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.hstat-num {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--cream);
+  display: block;
+}
+.hstat-label {
+  font-size: 10px;
+  color: var(--ink-faint);
+  margin-top: 1px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── MONTH TABS ── */
+.month-tabs {
+  display: flex;
+  background: var(--warm-white);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 118px;
+  z-index: 90;
+}
+.mtab {
+  flex: 1;
+  text-align: center;
+  padding: 13px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+}
+.mtab.active {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+/* ── CONTENT ── */
+.month-view { display: none; padding: 0 16px; }
+.month-view.active { display: block; }
+
+/* ── WEEK ── */
+.week-block { margin-top: 24px; }
+.week-header {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 10px;
+  padding-left: 2px;
+}
+
+/* ── POST CARD ── */
+.post-card {
+  background: var(--warm-white);
+  border-radius: 14px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: box-shadow .2s;
+}
+.post-card:active { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+.card-top {
+  display: grid;
+  grid-template-columns: 52px 1fr 36px;
+  align-items: center;
+  padding: 14px 14px 14px 0;
+  cursor: pointer;
+  gap: 0;
+}
+
+.date-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border-right: 1px solid var(--border);
+  min-height: 48px;
+}
+.date-day {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.date-num {
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.1;
+  font-family: 'DM Serif Display', serif;
+}
+.date-block.wed-slot .date-num { color: var(--green); }
+.date-block.wed-slot .date-day { color: var(--green); }
+
+.card-info {
+  padding: 0 10px;
+}
+.card-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+.card-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.tag-reel    { background: var(--blue-soft); color: var(--blue); }
+.tag-carousel{ background: var(--purple-soft); color: var(--purple); }
+.tag-food    { background: var(--green-soft); color: var(--green); }
+.tag-blr     { background: var(--rose-soft); color: var(--rose); }
+.tag-life    { background: var(--amber-soft); color: var(--amber); }
+.tag-mumbai  { background: var(--gray-soft); color: var(--ink-soft); }
+.tag-hack    { background: var(--rose-soft); color: var(--rose); }
+
+.wed-star {
+  font-size: 10px;
+  color: var(--green);
+  font-weight: 500;
+}
+
+.chevron {
+  font-size: 10px;
+  color: var(--ink-faint);
+  text-align: center;
+  transition: transform .2s;
+}
+.post-card.open .chevron { transform: rotate(180deg); }
+
+/* ── STATUS PILL on card top ── */
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+.dot-notstarted { background: var(--border); }
+.dot-filming    { background: #F59E0B; }
+.dot-edit       { background: #3B82F6; }
+.dot-editing    { background: #8B5CF6; }
+.dot-scheduled  { background: var(--green); }
+.dot-posted     { background: #111; }
+
+.status-text {
+  font-size: 10px;
+  color: var(--ink-soft);
+}
+
+/* ── EXPANDED DETAIL ── */
+.card-detail {
+  display: none;
+  padding: 14px 14px 14px 52px;
+  border-top: 1px solid var(--border);
+  background: var(--cream);
+}
+.post-card.open .card-detail { display: block; }
+
+.hook-line {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin-bottom: 14px;
+  padding-left: 1px;
+  border-left: 2px solid var(--border);
+  padding-left: 10px;
+}
+
+.detail-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: flex-start;
+}
+.detail-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  flex-shrink: 0;
+  padding-top: 2px;
+  width: 52px;
+}
+.detail-val {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.vo-tip {
+  background: var(--green-soft);
+  border-radius: 8px;
+  padding: 9px 11px;
+  font-size: 12px;
+  color: var(--green);
+  line-height: 1.5;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+.vo-tip strong { font-weight: 500; }
+
+/* STATUS SELECTOR */
+.status-section { margin-top: 2px; }
+.status-section-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 7px;
+}
+.status-btns {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.sbtn {
+  font-size: 11px;
+  padding: 5px 11px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--warm-white);
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all .15s;
+}
+.sbtn.sel-notstarted { background: var(--gray-soft); border-color: #d0cbc4; color: var(--ink); }
+.sbtn.sel-filming    { background: #FFFBEB; border-color: #F59E0B; color: #92400E; }
+.sbtn.sel-edit       { background: #EFF6FF; border-color: #3B82F6; color: #1E40AF; }
+.sbtn.sel-editing    { background: var(--purple-soft); border-color: #8B5CF6; color: var(--purple); }
+.sbtn.sel-scheduled  { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+.sbtn.sel-posted     { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+
+.notes-box {
+  width: 100%;
+  margin-top: 10px;
+  font-size: 12.5px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 11px;
+  resize: none;
+  outline: none;
+}
+.notes-box::placeholder { color: var(--ink-faint); }
+.notes-box:focus { border-color: var(--ink-soft); }
+
+/* ── PRIORITY BANNER ── */
+.priority-strip {
+  margin: 20px 16px 0;
+  background: var(--ink);
+  border-radius: 14px;
+  padding: 16px;
+}
+.ps-title {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+.ps-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+.ps-item:last-child { margin-bottom: 0; }
+.ps-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--ink-faint);
+  width: 18px;
+  flex-shrink: 0;
+}
+.ps-text {
+  font-size: 13px;
+  color: var(--cream);
+  line-height: 1.4;
+  flex: 1;
+}
+.ps-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+.psb-check { background: #F59E0B22; color: #F59E0B; }
+.psb-edit  { background: #3B82F622; color: #60A5FA; }
+.psb-go    { background: #2D6A3F22; color: #6EE7B7; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-handle">@simplyytanvii_</div>
+  <div class="header-sub">MAY – JUNE 2026 &nbsp;·&nbsp; MON / WED / FRI &nbsp;·&nbsp; 7 PM IST</div>
+  <div class="header-stats">
+    <div class="hstat">
+      <span class="hstat-num" id="h-total">20</span>
+      <span class="hstat-label">Total posts</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-num" id="h-posted">0</span>
+      <span class="hstat-label">Posted</span>
+    </div>
+    <div class="hstat">
+      <span class="hstat-num" id="h-left">20</span>
+      <span class="hstat-label">To go</span>
+    </div>
+  </div>
+</div>
+
+<div class="month-tabs">
+  <div class="mtab active" onclick="switchMonth('may', this)">May 2026</div>
+  <div class="mtab" onclick="switchMonth('june', this)">June 2026</div>
+  <div class="mtab" onclick="switchMonth('priority', this)">Priority</div>
+</div>
+
+<!-- ══════════ MAY ══════════ -->
+<div class="month-view active" id="view-may">
+
+  <div class="week-block">
+    <div class="week-header">Week 1</div>
+
+    <div class="post-card" id="c1">
+      <div class="card-top" onclick="toggleCard('c1')">
+        <div class="date-block">
+          <span class="date-day">Mon</span>
+          <span class="date-num">5</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Wai Wai upma hack</div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-hack">Hacks</span>
+            <span class="status-dot dot-notstarted" id="dot-c1"></span>
+            <span class="status-text" id="stxt-c1">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"Nobody is talking about this and I genuinely don't understand why. Wai Wai upma. 10 minutes. You're welcome."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Quick demo · fast cuts · text overlay · ~25s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Shares · Reach</span></div>
+        <div class="vo-tip"><strong>VO tip:</strong> Record hook line first, cold. Music + visuals carry the rest. Total VO under 10s.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c1','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c1','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c1','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c1','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c1','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c1','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c1" rows="2" placeholder="Notes — caption, audio, edit reminders..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c2">
+      <div class="card-top" onclick="toggleCard('c2')">
+        <div class="date-block wed-slot">
+          <span class="date-day">Wed</span>
+          <span class="date-num">7</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Filter coffee softy BLR <span class="wed-star">★</span></div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-blr">BLR Bites</span>
+            <span class="status-dot dot-notstarted" id="dot-c2"></span>
+            <span class="status-text" id="stxt-c2">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"Filter coffee. In a softy cone. In Bangalore. I don't make the rules, I just show up."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Aesthetic + VO · close-ups · ambient café sound · ~20–25s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Follows · Shares · Local reach</span></div>
+        <div class="vo-tip"><strong>VO tip:</strong> Hook line at the start only. Let the visual breathe after — the product is beautiful enough.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c2','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c2','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c2','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c2','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c2','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c2','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c2" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c3">
+      <div class="card-top" onclick="toggleCard('c3')">
+        <div class="date-block">
+          <span class="date-day">Fri</span>
+          <span class="date-num">9</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Soya tikki — high protein</div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-food">Real Food</span>
+            <span class="status-dot dot-notstarted" id="dot-c3"></span>
+            <span class="status-text" id="stxt-c3">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"I made these because I needed protein and didn't want to be boring about it. Soya tikki. I'll never go back."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Cooking + VO · process shots · warm tones · ~40s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Reach</span></div>
+        <div class="vo-tip"><strong>VO tip:</strong> Hook + taste reaction only. Let the cooking middle run on music.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c3','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c3','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c3','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c3','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c3','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c3','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c3" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-header">Week 2</div>
+
+    <div class="post-card" id="c4">
+      <div class="card-top" onclick="toggleCard('c4')">
+        <div class="date-block">
+          <span class="date-day">Mon</span>
+          <span class="date-num">12</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Pizza place BLR — worth it?</div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-blr">BLR Bites</span>
+            <span class="status-dot dot-notstarted" id="dot-c4"></span>
+            <span class="status-text" id="stxt-c4">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"Everyone kept saying go here. I went. Here's my actual verdict — no performance, just what I thought."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Talking to cam + food close-ups · ~40–45s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Comments · Follows · Shares</span></div>
+        <div class="vo-tip"><strong>VO tip:</strong> End with "Agree or am I wrong?" — drives comments from both sides.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c4','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c4','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c4','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c4','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c4','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c4','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c4" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c5">
+      <div class="card-top" onclick="toggleCard('c5')">
+        <div class="date-block wed-slot">
+          <span class="date-day">Wed</span>
+          <span class="date-num">14</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Ramen at home — properly <span class="wed-star">★</span></div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-food">Real Food</span>
+            <span class="status-dot dot-notstarted" id="dot-c5"></span>
+            <span class="status-text" id="stxt-c5">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"I tried to make ramen the way restaurants do. Not a packet. Actual ramen. This is how it went."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Aesthetic + VO · moody tones · broth close-ups · ~50s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Reach</span></div>
+        <div class="vo-tip"><strong>VO tip:</strong> VO at start and end only. Middle runs on music — ramen is cinematic, trust it.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c5','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c5','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c5','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c5','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c5','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c5','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c5" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c6">
+      <div class="card-top" onclick="toggleCard('c6')">
+        <div class="date-block">
+          <span class="date-day">Fri</span>
+          <span class="date-num">16</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">My BLR food map carousel</div>
+          <div class="card-tags">
+            <span class="tag tag-carousel">Carousel</span>
+            <span class="tag tag-blr">BLR Bites</span>
+            <span class="status-dot dot-notstarted" id="dot-c6"></span>
+            <span class="status-text" id="stxt-c6">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">Slide 1: "Places in Bangalore I keep going back to (not a paid list)"</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">6–8 slides · 1 place per slide · photo + one honest line</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Follows</span></div>
+        <div class="vo-tip"><strong>Tip:</strong> Pull from existing photos. "Not a paid list" in the hook is the trust signal that makes people save.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c6','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c6','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c6','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c6','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c6','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c6','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c6" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-header">Week 3</div>
+
+    <div class="post-card" id="c7">
+      <div class="card-top" onclick="toggleCard('c7')">
+        <div class="date-block">
+          <span class="date-day">Mon</span>
+          <span class="date-num">19</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Nepali restaurant BLR</div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-blr">BLR Bites</span>
+            <span class="status-dot dot-notstarted" id="dot-c7"></span>
+            <span class="status-text" id="stxt-c7">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"I went to a Nepali restaurant in Bangalore that nobody in my circle was talking about. I'm fixing that."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Vlog-style + VO · ambient sounds · food close-ups · ~45–50s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Follows · Saves · Shares</span></div>
+        <div class="vo-tip"><strong>VO tip:</strong> VO sets up the mystery. Come back to cam for verdict — name one dish specifically.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c7','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c7','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c7','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c7','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c7','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c7','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c7" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c8">
+      <div class="card-top" onclick="toggleCard('c8')">
+        <div class="date-block wed-slot">
+          <span class="date-day">Wed</span>
+          <span class="date-num">21</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Penne alfredo forever <span class="wed-star">★</span></div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-food">Real Food</span>
+            <span class="status-dot dot-notstarted" id="dot-c8"></span>
+            <span class="status-text" id="stxt-c8">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"I don't care what anyone says. Classic penne alfredo will always be the answer. Here's mine."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Aesthetic + VO · cream sauce close-ups · ~35–45s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Reach</span></div>
+        <div class="vo-tip"><strong>VO tip:</strong> One strong opening line, then music. Recipe in caption is the save trigger.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c8','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c8','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c8','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c8','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c8','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c8','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c8" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c9">
+      <div class="card-top" onclick="toggleCard('c9')">
+        <div class="date-block">
+          <span class="date-day">Fri</span>
+          <span class="date-num">23</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Ramen recipe breakdown</div>
+          <div class="card-tags">
+            <span class="tag tag-carousel">Carousel</span>
+            <span class="tag tag-food">Real Food</span>
+            <span class="status-dot dot-notstarted" id="dot-c9"></span>
+            <span class="status-text" id="stxt-c9">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">Slide 1: "How I make ramen at home that actually tastes like a restaurant"</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">~7 slides · step-by-step · photos from reel shoot</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Reach</span></div>
+        <div class="vo-tip"><strong>Tip:</strong> Use stills from the reel shoot — zero extra effort. Post 1–2 weeks after the reel.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c9','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c9','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c9','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c9','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c9','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c9','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c9" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-header">Week 4</div>
+
+    <div class="post-card" id="c10">
+      <div class="card-top" onclick="toggleCard('c10')">
+        <div class="date-block">
+          <span class="date-day">Mon</span>
+          <span class="date-num">26</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Bengaluru Café — worth it?</div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-blr">BLR Bites</span>
+            <span class="status-dot dot-notstarted" id="dot-c10"></span>
+            <span class="status-text" id="stxt-c10">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"Bengaluru Café. Yes, that one. I went so you don't have to guess."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Talking to cam + food shots · ~35–40s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Follows · Saves · Comments</span></div>
+        <div class="vo-tip"><strong>VO tip:</strong> Give a specific verdict — no sitting on the fence. Honesty over polish.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c10','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c10','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c10','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c10','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c10','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c10','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c10" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c11">
+      <div class="card-top" onclick="toggleCard('c11')">
+        <div class="date-block wed-slot">
+          <span class="date-day">Wed</span>
+          <span class="date-num">28</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Fried pooris — grown-up vibes <span class="wed-star">★</span></div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-food">Real Food</span>
+            <span class="status-dot dot-filming" id="dot-c11"></span>
+            <span class="status-text" id="stxt-c11">Check footage</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"I made pooris alone on a Tuesday evening and felt like the most grown-up person alive. No notes."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Aesthetic + VO · ASMR oil sounds · puffing poori · ~30–40s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Shares · Engagement · Reach</span></div>
+        <div class="vo-tip"><strong>VO tip:</strong> Check footage first. If unusable, reshoot next time you make pooris. The puffing poori moment is the visual hook — don't skip it.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn" onclick="setStatus('c11','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn sel-filming" onclick="setStatus('c11','filming','Check footage')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c11','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c11','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c11','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c11','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c11" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c12">
+      <div class="card-top" onclick="toggleCard('c12')">
+        <div class="date-block">
+          <span class="date-day">Fri</span>
+          <span class="date-num">30</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Everything I ate in May</div>
+          <div class="card-tags">
+            <span class="tag tag-carousel">Carousel</span>
+            <span class="tag tag-life">My Life</span>
+            <span class="status-dot dot-notstarted" id="dot-c12"></span>
+            <span class="status-text" id="stxt-c12">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">Slide 1: "Everything I ate in May and how I actually feel about it"</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">8–10 slides · best food photos · one honest line each</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Engagement</span></div>
+        <div class="vo-tip"><strong>Tip:</strong> Last slide CTA — "What should I eat in June?" Drives comments for next month's ideas.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c12','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c12','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c12','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c12','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c12','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c12','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c12" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ JUNE ══════════ -->
+<div class="month-view" id="view-june">
+
+  <div class="week-block">
+    <div class="week-header">Week 1</div>
+
+    <div class="post-card" id="c13">
+      <div class="card-top" onclick="toggleCard('c13')">
+        <div class="date-block">
+          <span class="date-day">Mon</span>
+          <span class="date-num">2</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Mushroom cheese spinach rice</div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-food">Real Food</span>
+            <span class="status-dot dot-notstarted" id="dot-c13"></span>
+            <span class="status-text" id="stxt-c13">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"This is the dinner I make when I want to feel like I have my life together. Mushroom, cheese, spinach, rice."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Aesthetic + VO · warm tones · steam close-ups · ~40s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Reach</span></div>
+        <div class="vo-tip"><strong>VO tip:</strong> Get the melting cheese shot — that's your thumbnail moment.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c13','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c13','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c13','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c13','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c13','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c13','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c13" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c14">
+      <div class="card-top" onclick="toggleCard('c14')">
+        <div class="date-block wed-slot">
+          <span class="date-day">Wed</span>
+          <span class="date-num">4</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">5 underrated BLR restaurants <span class="wed-star">★</span></div>
+          <div class="card-tags">
+            <span class="tag tag-carousel">Carousel</span>
+            <span class="tag tag-blr">BLR Bites</span>
+            <span class="status-dot dot-notstarted" id="dot-c14"></span>
+            <span class="status-text" id="stxt-c14">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">Slide 1: "5 Bangalore restaurants I think are genuinely underrated (no ads, no collabs)"</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">5 slides · 1 restaurant each · photo + area + one dish + why</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Follows · Comments</span></div>
+        <div class="vo-tip"><strong>Tip:</strong> "No ads, no collabs" is the trust signal. Last slide: "Drop yours below."</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c14','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c14','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c14','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c14','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c14','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c14','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c14" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c15">
+      <div class="card-top" onclick="toggleCard('c15')">
+        <div class="date-block">
+          <span class="date-day">Fri</span>
+          <span class="date-num">6</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Soya tikki recipe carousel</div>
+          <div class="card-tags">
+            <span class="tag tag-carousel">Carousel</span>
+            <span class="tag tag-food">Real Food</span>
+            <span class="status-dot dot-notstarted" id="dot-c15"></span>
+            <span class="status-text" id="stxt-c15">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">Slide 1: "High protein soya tikki — full recipe (screenshot this)"</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">6–7 slides · photos from reel shoot · ingredient list + steps</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Reach</span></div>
+        <div class="vo-tip"><strong>Tip:</strong> "Screenshot this" in the hook is a proven save trigger. Same photos as the reel.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c15','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c15','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c15','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c15','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c15','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c15','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c15" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-header">Week 2</div>
+
+    <div class="post-card" id="c16">
+      <div class="card-top" onclick="toggleCard('c16')">
+        <div class="date-block">
+          <span class="date-day">Mon</span>
+          <span class="date-num">9</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Mumbai Diaries Pt. 1 — Bandra</div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-mumbai">Mumbai</span>
+            <span class="status-dot dot-edit" id="dot-c16"></span>
+            <span class="status-text" id="stxt-c16">Backlog footage</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"I had one day in Bandra. I made it count. Here's everything I ate."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Mini vlog + VO · café to café · ~50–60s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Reach · Shares · New audience</span></div>
+        <div class="vo-tip"><strong>Framing tip:</strong> Don't say when you went. "One day in Bandra" is evergreen — it's a guide, not a diary entry.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn" onclick="setStatus('c16','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c16','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn sel-edit" onclick="setStatus('c16','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c16','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c16','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c16','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c16" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c17">
+      <div class="card-top" onclick="toggleCard('c17')">
+        <div class="date-block wed-slot">
+          <span class="date-day">Wed</span>
+          <span class="date-num">11</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Cooking alone — things I wish I knew <span class="wed-star">★</span></div>
+          <div class="card-tags">
+            <span class="tag tag-carousel">Carousel</span>
+            <span class="tag tag-life">My Life</span>
+            <span class="status-dot dot-notstarted" id="dot-c17"></span>
+            <span class="status-text" id="stxt-c17">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">Slide 1: "Things nobody tells you about cooking for yourself for the first time"</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">6–8 slides · one tip per slide · any food photos · conversational tone</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Shares · Saves · Reach</span></div>
+        <div class="vo-tip"><strong>Tip:</strong> Personality-driven, not food-driven. Just write what you actually learned — no expertise needed.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c17','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c17','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c17','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c17','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c17','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c17','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c17" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c18">
+      <div class="card-top" onclick="toggleCard('c18')">
+        <div class="date-block">
+          <span class="date-day">Fri</span>
+          <span class="date-num">13</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Best eats in Bandra — guide</div>
+          <div class="card-tags">
+            <span class="tag tag-carousel">Carousel</span>
+            <span class="tag tag-mumbai">Mumbai</span>
+            <span class="status-dot dot-edit" id="dot-c18"></span>
+            <span class="status-text" id="stxt-c18">Backlog photos</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">Slide 1: "Everything I'd eat if I had one day in Bandra (been there, done that)"</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">5–6 slides · 1 café per slide · name + what to order + vibe</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Shares</span></div>
+        <div class="vo-tip"><strong>Tip:</strong> Post the week after the Bandra reel. Last slide: "Save this for your next Mumbai trip."</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn" onclick="setStatus('c18','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c18','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn sel-edit" onclick="setStatus('c18','edit','Backlog photos')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c18','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c18','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c18','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c18" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-header">Week 3</div>
+
+    <div class="post-card" id="c19">
+      <div class="card-top" onclick="toggleCard('c19')">
+        <div class="date-block">
+          <span class="date-day">Mon</span>
+          <span class="date-num">16</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Mumbai Diaries Pt. 2 — Bombay Sweet Shop</div>
+          <div class="card-tags">
+            <span class="tag tag-reel">Reel</span>
+            <span class="tag tag-mumbai">Mumbai</span>
+            <span class="status-dot dot-edit" id="dot-c19"></span>
+            <span class="status-text" id="stxt-c19">Backlog footage</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">"Bombay Sweet Shop. If you know, you know. If you don't — this is why you need to go."</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">Aesthetic + VO · food close-ups · one hero item · ~35–45s</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Reach · Shares</span></div>
+        <div class="vo-tip"><strong>Tip:</strong> Tag Bombay Sweet Shop in caption — high chance of a reshare which spikes reach.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn" onclick="setStatus('c19','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c19','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn sel-edit" onclick="setStatus('c19','edit','Backlog footage')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c19','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c19','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c19','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c19" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c20">
+      <div class="card-top" onclick="toggleCard('c20')">
+        <div class="date-block wed-slot">
+          <span class="date-day">Wed</span>
+          <span class="date-num">18</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Pasta 3 ways <span class="wed-star">★</span></div>
+          <div class="card-tags">
+            <span class="tag tag-carousel">Carousel</span>
+            <span class="tag tag-food">Real Food</span>
+            <span class="status-dot dot-notstarted" id="dot-c20"></span>
+            <span class="status-text" id="stxt-c20">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">Slide 1: "3 pasta recipes I make on repeat — screenshot before you scroll"</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">~8 slides · penne alfredo + broccoli cheese + one new · 2–3 slides per dish</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Reach</span></div>
+        <div class="vo-tip"><strong>Tip:</strong> Reuses alfredo and broccoli cheese footage. Add one new pasta for variety — zero extra shooting needed.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c20','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c20','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c20','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c20','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c20','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c20','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c20" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-card" id="c21">
+      <div class="card-top" onclick="toggleCard('c21')">
+        <div class="date-block">
+          <span class="date-day">Fri</span>
+          <span class="date-num">20</span>
+        </div>
+        <div class="card-info">
+          <div class="card-title">Everything I ate in June</div>
+          <div class="card-tags">
+            <span class="tag tag-carousel">Carousel</span>
+            <span class="tag tag-life">My Life</span>
+            <span class="status-dot dot-notstarted" id="dot-c21"></span>
+            <span class="status-text" id="stxt-c21">Not started</span>
+          </div>
+        </div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="hook-line">Slide 1: "Everything I ate in June and how I actually feel about it"</div>
+        <div class="detail-row"><span class="detail-label">Format</span><span class="detail-val">8–10 slides · best food photos · one honest line each</span></div>
+        <div class="detail-row"><span class="detail-label">Goal</span><span class="detail-val">Saves · Engagement</span></div>
+        <div class="vo-tip"><strong>Tip:</strong> Same format as May dump — make this a monthly recurring series. Zero planning needed.</div>
+        <div class="status-section">
+          <div class="status-section-label">Status</div>
+          <div class="status-btns">
+            <button class="sbtn sel-notstarted" onclick="setStatus('c21','notstarted','Not started')"><span class="status-dot dot-notstarted"></span>Not started</button>
+            <button class="sbtn" onclick="setStatus('c21','filming','Filming needed')"><span class="status-dot dot-filming"></span>Film</button>
+            <button class="sbtn" onclick="setStatus('c21','edit','Ready to edit')"><span class="status-dot dot-edit"></span>Edit</button>
+            <button class="sbtn" onclick="setStatus('c21','editing','Editing')"><span class="status-dot dot-editing"></span>Editing</button>
+            <button class="sbtn" onclick="setStatus('c21','scheduled','Scheduled')"><span class="status-dot dot-scheduled"></span>Scheduled</button>
+            <button class="sbtn" onclick="setStatus('c21','posted','Posted')"><span class="status-dot dot-posted"></span>Posted</button>
+          </div>
+          <textarea class="notes-box" id="notes-c21" rows="2" placeholder="Notes..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PRIORITY ══════════ -->
+<div class="month-view" id="view-priority">
+  <div class="priority-strip" style="margin-top:20px">
+    <div class="ps-title">Edit first — footage ready</div>
+    <div class="ps-item">
+      <span class="ps-num">1</span>
+      <span class="ps-text">Wai Wai upma — posts May 5, edit this week</span>
+      <span class="ps-badge psb-go">Go</span>
+    </div>
+    <div class="ps-item">
+      <span class="ps-num">2</span>
+      <span class="ps-text">Filter coffee softy — posts May 7 (Wed ★)</span>
+      <span class="ps-badge psb-go">Go</span>
+    </div>
+    <div class="ps-item">
+      <span class="ps-num">3</span>
+      <span class="ps-text">Soya tikki — posts May 9</span>
+      <span class="ps-badge psb-go">Go</span>
+    </div>
+    <div class="ps-item">
+      <span class="ps-num">4</span>
+      <span class="ps-text">Pizza place BLR — posts May 12</span>
+      <span class="ps-badge psb-go">Go</span>
+    </div>
+    <div class="ps-item">
+      <span class="ps-num">5</span>
+      <span class="ps-text">Ramen — posts May 14 (Wed ★) — priority edit</span>
+      <span class="ps-badge psb-go">Go</span>
+    </div>
+  </div>
+
+  <div class="priority-strip" style="margin-top:10px">
+    <div class="ps-title">Check footage first</div>
+    <div class="ps-item">
+      <span class="ps-num">1</span>
+      <span class="ps-text">Fried pooris — May 28 (Wed ★) — watch the footage now</span>
+      <span class="ps-badge psb-check">Check</span>
+    </div>
+    <div class="ps-item">
+      <span class="ps-num">2</span>
+      <span class="ps-text">1am biryani vlog — not in calendar yet, watch + decide</span>
+      <span class="ps-badge psb-check">Check</span>
+    </div>
+    <div class="ps-item">
+      <span class="ps-num">3</span>
+      <span class="ps-text">Cake with friend — watch + decide quality</span>
+      <span class="ps-badge psb-check">Check</span>
+    </div>
+  </div>
+
+  <div class="priority-strip" style="margin-top:10px">
+    <div class="ps-title">Carousels to create (low effort)</div>
+    <div class="ps-item">
+      <span class="ps-num">1</span>
+      <span class="ps-text">BLR food map — May 16 · just existing photos + one line each</span>
+      <span class="ps-badge psb-edit">Create</span>
+    </div>
+    <div class="ps-item">
+      <span class="ps-num">2</span>
+      <span class="ps-text">Ramen recipe — May 23 · stills from the reel shoot</span>
+      <span class="ps-badge psb-edit">Create</span>
+    </div>
+    <div class="ps-item">
+      <span class="ps-num">3</span>
+      <span class="ps-text">May food dump — May 30 · build as you go through the month</span>
+      <span class="ps-badge psb-edit">Create</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const statuses = {};
+
+function switchMonth(id, el) {
+  document.querySelectorAll('.month-view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.mtab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+function toggleCard(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+const dotClass = {
+  notstarted: 'dot-notstarted',
+  filming:    'dot-filming',
+  edit:       'dot-edit',
+  editing:    'dot-editing',
+  scheduled:  'dot-scheduled',
+  posted:     'dot-posted'
+};
+
+function setStatus(id, status, label) {
+  statuses[id] = status;
+  // update dot
+  const dot = document.getElementById('dot-' + id);
+  dot.className = 'status-dot ' + dotClass[status];
+  // update text
+  document.getElementById('stxt-' + id).textContent = label;
+  // update buttons
+  const card = document.getElementById(id);
+  card.querySelectorAll('.sbtn').forEach(b => {
+    b.className = 'sbtn';
+  });
+  event.target.closest('.sbtn').className = 'sbtn sel-' + status;
+  updateHeader();
+}
+
+function updateHeader() {
+  const all = Object.keys(statuses);
+  const posted = all.filter(k => statuses[k] === 'posted').length;
+  document.getElementById('h-posted').textContent = posted;
+  document.getElementById('h-left').textContent = 21 - posted;
+}
+</script>
+</body>
+</html>
